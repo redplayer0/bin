@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+
+for file in $(fd xml); do
+    xmllint -o $file --format $file
+done

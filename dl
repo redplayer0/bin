@@ -1,0 +1,9 @@
+#!/usr/bin/bash
+
+folder=$1
+url=$2
+
+mkdir /home/red/media/music/$folder
+
+yt-dlp -x --audio-format mp3 -o "/home/red/media/music/$folder/%(title)s.%(exts)s" $url
+

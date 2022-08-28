@@ -1,0 +1,26 @@
+#!/usr/bin/bash
+
+bright=/sys/devices/pci0000:00/0000:00:08.1/0000:03:00.0/backlight/amdgpu_bl0/brightness
+max=$(cat /sys/devices/pci0000:00/0000:00:08.1/0000:03:00.0/backlight/amdgpu_bl0/max_brightness)
+
+if [[ $1 == -i ]]; then
+    brightnessctl -q set +5 > /dev/null
+elif [[ $1 == -d ]]; then
+    brightnessctl -q set 5- > /dev/null
+elif [[ $1 == -M ]]; then
+    brightnessctl -q set 255 > /dev/null
+elif [[ $1 == -m ]]; then
+    brightnessctl -q set 1 > /dev/null
+else
+    echo "options: -i, -d, -m, -M"
+fi
+
+# This is to integrate with dwm bar script dbar
+# FIFO=$HOME/.dwm.fifo
+# # BRIGHTNESS
+# bri() {
+#     bri=$(brightnessctl i | awk '/Current/ {print $4}' | tr -d '()')
+#     echo -e "S ${bri}" > $FIFO
+# }
+#
+# [ -p $FIFO ] && bri

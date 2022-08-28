@@ -1,0 +1,47 @@
+#!/usr/bin/bash
+
+declare options=("alacritty
+bash_profile
+bashrc
+bspwm
+config_editor
+dunst
+nvimrc
+picom
+rofi_theme
+spectrwm
+sxhkd
+vimrc
+xinitrc
+")
+
+
+opt=$(for opt in "${options[*]}";do echo "$opt";done | dmenu -h 10 -l 20 -p "mod")
+
+if [[ x"$opt" == x"alacritty" ]];then
+    alacritty -e nvim $HOME/.config/alacritty/alacritty.yml
+elif [[ x"$opt" == x"bspwm" ]];then
+    alacritty -e nvim $HOME/.config/bspwm/bspwmrc
+elif [[ x"$opt" == x"spectrwm" ]];then
+    alacritty -e nvim $HOME/.spectrwm.conf
+elif [[ x"$opt" == x"nvim" ]];then
+    alacritty -e nvim $HOME/.config/nvim/init.vim
+elif [[ x"$opt" == x"sxhkd" ]];then
+    alacritty -e nvim $HOME/.config/sxhkd/sxhkdrc
+elif [[ x"$opt" == x"vimrc" ]];then
+    alacritty -e nvim $HOME/.vim/vimrc
+elif [[ x"$opt" == x"bash_profile" ]];then
+    alacritty -e nvim $HOME/.bash_profile
+elif [[ x"$opt" == x"bashrc" ]];then
+    alacritty -e nvim $HOME/.bashrc
+elif [[ x"$opt" == x"picom" ]];then
+    alacritty -e nvim $HOME/.config/picom/picom.conf
+elif [[ x"$opt" == x"dunst" ]];then
+    alacritty -e nvim $HOME/.config/dunst/dunstrc
+elif [[ x"$opt" == x"xinitrc" ]];then
+    alacritty -e nvim $HOME/.xinitrc
+elif [[ x"$opt" == x"rofi_theme" ]];then
+    alacritty -e nvim $HOME/.config/rofi/theme.rasi
+elif [[ x"$opt" == x"config_editor" ]];then
+    alacritty -e nvim $HOME/bin/bash/config_editor
+fi

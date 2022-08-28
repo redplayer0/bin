@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+
+nitrogen --save --set-auto --random $HOME/media/images/wallpapers

@@ -1,0 +1,20 @@
+#!/usr/bin/bash
+
+rm $HOME/.lesshst > /dev/null
+rm $HOME/.viminfo > /dev/null
+rm $HOME/.python_history > /dev/null
+rm $HOME/.irb-history > /dev/null
+rm -rf $HOME/.vim > /dev/null
+rm -rf $HOME/.nv > /dev/null
+rm -rf $HOME/.w3m > /dev/null
+rm -rf $HOME/.config/balena-etcher-electron > /dev/null
+rm -rf $HOME/.cache/gegl-0.4 > /dev/null
+rm -rf $HOME/.cache/ImageMagick > /dev/null
+rm -rf $HOME/.cache/ms-playwright > /dev/null
+rm -rf $HOME/.cache/ranger > /dev/null
+rm -rf $HOME/.cache/starship > /dev/null
+rm -rf $HOME/.cache/thumbnails > /dev/null
+rm -rf $HOME/.cache/tracker3 > /dev/null
+rm -rf $HOME/.cache/transmission > /dev/null
+rm -rf $HOME/.cache/com.kamu.easy > /dev/null
+rm -rf $HOME/.npm > /dev/null

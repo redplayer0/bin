@@ -1,0 +1,13 @@
+#!/usr/bin/bash
+
+ALACRITTY_CONF=$HOME/.config/alacritty/alacritty.yml
+NVIM_CONF=$HOME/.config/nvim/init.lua
+
+if [[ -f $ALACRITTY_CONF ]]; then
+  sd "colors: .*" "colors: *$1" $ALACRITTY_CONF
+fi
+
+if [[ -f $NVIM_CONF ]]; then
+  THEME="colorscheme $1"
+  sd "vim.cmd.*" "vim.cmd('$THEME')" $NVIM_CONF
+fi

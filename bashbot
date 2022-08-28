@@ -1,0 +1,19 @@
+#!/usr/bin/bash
+
+ls=$(which ls)
+folder="$HOME/bin"
+file=$($ls $folder | dmenu "$@")
+
+if [[ -z "$file" ]]; then
+  exit
+fi
+
+filename=$folder/$file
+
+if [[ -f $filename ]]; then
+  nvim $filename
+else
+  echo '#!/usr/bin/bash' > $filename
+  chmod +x $filename
+  nvim $filename
+fi

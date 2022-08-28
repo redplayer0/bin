@@ -1,0 +1,4 @@
+#!/usr/bin/bash
+
+FILENAME=$(dmenu -p "File name: "<&-)
+scrot -s $HOME/media/images/screenshots/$FILENAME.png

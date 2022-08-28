@@ -1,0 +1,21 @@
+#!/usr/bin/bash
+
+all_packages=$(sudo pacman -Q)
+num_all_packages=$(sudo pacman -Q | wc -l)
+native=$(sudo pacman -Qn)
+num_native=$(sudo pacman -Qn | wc -l)
+foreign=$(sudo pacman -Qm)
+num_foreign=$(sudo pacman -Qm | wc -l)
+expl=$(sudo pacman -Qe)
+num_expl=$(sudo pacman -Qe | wc -l)
+expl_nat=$(sudo pacman -Qen)
+num_expl_nat=$(sudo pacman -Qen | wc -l)
+
+echo $all_packages > $HOME/.pkglist
+
+echo "----- Package information -----"
+echo "On system:     $num_all_packages"
+echo "Native:        $num_native"
+echo "AUR/GIT:       $num_foreign"
+echo "Explicit:      $num_expl"
+echo "Expl/Native:   $num_expl_nat"

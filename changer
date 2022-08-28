@@ -1,0 +1,11 @@
+#!/usr/bin/bash
+# to be used on termux to quickly change extra keys
+
+active="$HOME/.termux/termux.properties"
+alt="$HOME/.termux/termux.alt.properties"
+
+mv $active "$active.tmp"
+mv $alt $active
+mv "$active.tmp" $alt
+
+termux-reload-settings

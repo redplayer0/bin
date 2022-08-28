@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+
+OLD_DIR=$HOME/var/
+
+mv $@ $OLD_DIR

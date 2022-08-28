@@ -1,0 +1,20 @@
+#!/usr/bin/bash
+
+if [[ $1 == -d ]]; then
+    amixer -c 1 sset Master 2%- > /dev/null
+elif [[ $1 == -i ]]; then
+    amixer -c 1 sset Master 2%+ > /dev/null
+elif [[ $1 == -m ]]; then
+    amixer -c 1 sset Master toggle > /dev/null
+else
+    echo "options: -i, -d, -m"
+fi
+
+# This is to integrate with dwm bar script.
+# FIFO=$HOME/.dwm.fifo
+# # VOLUME
+# vol() {
+#     vol=`pamixer --get-volume-human`
+#     echo -e "V墳 ${vol}" > $FIFO
+# }
+# [ -p $FIFO ] && vol

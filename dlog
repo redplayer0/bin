@@ -1,0 +1,35 @@
+#!/usr/bin/python3
+import sys
+from os import system
+from time import strftime
+from time import localtime
+
+filename = 'dlog.txt' 
+
+
+def add():
+    with open(filename, 'a') as f:
+        system('changer')
+        while True:
+            prompt = input(f'> ')
+            if prompt == '':
+                system('changer')
+                break
+            else:
+                timestamp = strftime("%Y-%m-%d %H:%M:%S", localtime())
+                entry = f'[{timestamp}] {prompt}'
+                f.write(entry)
+                f.write('\n')
+
+
+def print_arg():
+    if sys.argv[1]:
+        with open(filename, 'r') as f:
+            for line in f.readlines():
+                if sys.argv[1] in line:
+                    print(line.replace('\n',''))
+
+try:
+    print_arg()
+except:
+    add()

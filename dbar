@@ -1,0 +1,140 @@
+#!/usr/bin/bash
+
+FIFO=$HOME/.dwm.fifo
+
+[ -e $FIFO ] && rm $FIFO
+mkfifo $FIFO
+
+
+# ## DISK
+# hdd() {
+#   hdd="$(df -h | awk 'NR==4{print $3, $5}')"
+#   echo -e "HDD: $hdd"
+# }
+
+# RAM
+mem() {
+    while true
+    do
+        mem=$(free | awk '/Mem/ {printf "%d/%d\n", $3 / 1024.0, $2 / 1024.0 }')
+        mem=" ${mem} MB"
+        echo -e R${mem} > $FIFO
+        sleep 1
+    done
+}
+
+# CPU
+cpu() {
+    PREV_TOTAL=0
+    PREV_IDLE=0
+
+    while true
+    do
+        # Get the total CPU statistics, discarding the 'cpu ' prefix.
+        CPU=($(sed -n 's/^cpu\s//p' /proc/stat))
+        IDLE=${CPU[3]} # Just the idle CPU time.
+
+        # Calculate the total CPU time.
+        TOTAL=0
+        for VALUE in "${CPU[@]:0:8}"; do
+          TOTAL=$((TOTAL+VALUE))
+        done
+
+        # Calculate the CPU usage since we last checked.
+        DIFF_IDLE=$((IDLE-PREV_IDLE))
+        DIFF_TOTAL=$((TOTAL-PREV_TOTAL))
+        DIFF_USAGE=$(((1000*(DIFF_TOTAL-DIFF_IDLE)/DIFF_TOTAL+5)/10))
+        echo -e "C ${DIFF_USAGE}%" > $FIFO
+
+        # Remember the total and idle CPU times for the next check.
+        PREV_TOTAL="$TOTAL"
+        PREV_IDLE="$IDLE"
+
+        # Wait before checking again.
+        sleep 1
+    done
+}
+
+# VOLUME
+vol() {
+    vol=`pamixer --get-volume-human`
+    echo -e "\x01墳 ${vol}\x04"
+}
+
+
+# BRIGHTNESS
+bri() {
+    bri=$(brightnessctl i | awk '/Current/ {print $4}' | tr -d '()')
+    echo -e " ${bri}"
+}
+
+# BATTERY
+bat() {
+    while true
+    do
+        bat=`cat /sys/class/power_supply/BAT0/capacity`
+        echo -e "B ${bat}%" > $FIFO
+        sleep 45
+    done
+}
+
+# DATETIME
+dat() {
+    while true
+    do
+        dat="$(date '+%a %d %b %H:%M')"
+        echo -e D${dat} > $FIFO
+        sleep 30
+    done
+}
+
+
+updates() {
+    while true
+    do
+        upds=$(paru -Qu | wc -l)
+        echo -e "U ${upds}" > $FIFO
+        sleep 300
+    done
+}
+
+
+display_bar() {
+    vol=$(vol)
+    bri=$(bri)
+    dat="$(date '+%a %d %b %H:%M')"
+    # upds=" $(paru -Qu | wc -l)"
+    while read -r line < $FIFO
+    do
+        case $line in
+            D*)
+                dat=${line#?}
+                ;;
+            # U*)
+            #     upds=${line#?}
+            #     ;;
+            R*)
+                mem=${line#?}
+                ;;
+            V*)
+                vol=${line#?}
+                ;;
+            B*)
+                bat=${line#?}
+                ;;
+            S*)
+                bri=${line#?}
+                ;;
+            C*)
+                cpu=${line#?}
+        esac
+        xsetroot -name " ${cpu} | ${mem} | ${vol} | ${bri} | ${bat} | ${dat}"
+    done
+}
+
+dat &
+bat &
+mem &
+cpu &
+# updates &
+display_bar &

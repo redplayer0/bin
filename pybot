@@ -1,0 +1,12 @@
+#!/usr/bin/bash
+
+folder="$HOME/bin"
+file="$folder/$1"
+
+if [[ -f $file ]]; then
+    nvim $file
+else
+    echo '#!/usr/bin/python3' > $file
+    chmod +x $file
+    nvim $file
+fi   

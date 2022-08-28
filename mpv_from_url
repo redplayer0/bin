@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+
+echo loadfile $1 | socat - /tmp/mpvcontrol
