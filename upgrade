@@ -1,5 +1,3 @@
 #!/usr/bin/bash
 
 pkg upgrade
-cd ~/bin && git fetch fetching
-cd ~/.termux && git fetch fetching
